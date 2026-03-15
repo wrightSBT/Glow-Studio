@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plaiting Services — Botho Hair Boutique</title>
+<link rel="stylesheet" href="../shared.css">
+<style>
+  /* ── PLAITING PAGE ── */
+
+  /* Style picker grid */
+  .styles-section { background: var(--warm-white); }
+  .styles-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px; background: var(--border); margin-top: 3.5rem;
+  }
+  .style-card {
+    background: var(--warm-white); overflow: hidden;
+    transition: background 0.3s; cursor: default;
+  }
+  .style-card:hover { background: var(--cream); }
+  .style-img {
+    position: relative; aspect-ratio: 3/4; overflow: hidden; background: var(--rose-light);
+  }
+  .style-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+  .style-card:hover .style-img img { transform: scale(1.05); }
+  .style-popular {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--rose); color: #fff;
+    font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.25rem 0.7rem; font-weight: 500;
+  }
+  .style-info { padding: 1.8rem; }
+  .style-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; color: var(--brown); margin-bottom: 0.5rem; font-weight: 500;
+  }
+  .style-info p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
+  .style-meta { display: flex; justify-content: space-between; align-items: center; }
+  .style-price { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--rose); font-weight: 300; }
+  .style-duration { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .style-wa {
+    display: block; margin-top: 1.2rem; text-align: center;
+    background: var(--brown); color: var(--cream);
+    padding: 0.65rem; font-size: 0.72rem; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none; font-weight: 500;
+    transition: background 0.3s;
+  }
+  .style-wa:hover { background: var(--rose); }
+
+  /* What to expect */
+  .expect-section { background: var(--cream); }
+  .expect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .expect-img { position: relative; }
+  .expect-img img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+  .expect-img-badge {
+    position: absolute; bottom: -1.5rem; right: -1.5rem;
+    background: var(--brown); color: var(--cream);
+    padding: 1.5rem; text-align: center;
+  }
+  .expect-img-badge strong { font-family: 'Cormorant Garamond', serif; font-size: 2rem; display: block; }
+  .expect-img-badge span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
+  .expect-list { margin-top: 2rem; }
+  .expect-item {
+    display: flex; gap: 1rem; padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .expect-item:last-child { border-bottom: none; }
+  .expect-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+  .expect-item h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--brown); margin-bottom: 0.3rem; font-weight: 500; }
+  .expect-item p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  /* Aftercare tips */
+  .aftercare-section { background: var(--brown); padding: 5rem 4rem; }
+  .aftercare-section .section-title { color: var(--cream); }
+  .aftercare-section .section-tag { color: var(--rose-light); }
+  .aftercare-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem;
+  }
+  .aftercare-card {
+    background: rgba(255,255,255,0.06); padding: 1.8rem;
+    border-top: 2px solid var(--rose);
+  }
+  .aftercare-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; color: rgba(201,146,122,0.3); font-weight: 300; line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+  .aftercare-card h4 { font-size: 0.82rem; font-weight: 500; color: var(--cream); margin-bottom: 0.5rem; letter-spacing: 0.05em; }
+  .aftercare-card p { font-size: 0.78rem; color: rgba(250,246,241,0.55); line-height: 1.6; }
+
+  /* Pricing table */
+  .plaiting-pricing { background: var(--warm-white); }
+  .pricing-table {
+    width: 100%; border-collapse: collapse; margin-top: 3rem;
+  }
+  .pricing-table thead tr {
+    background: var(--brown); color: var(--cream);
+  }
+  .pricing-table th {
+    padding: 1rem 1.5rem; font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 500; text-align: left;
+  }
+  .pricing-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .pricing-table tbody tr:hover { background: var(--cream); }
+  .pricing-table tbody tr.featured-row { background: rgba(201,146,122,0.08); }
+  .pricing-table td {
+    padding: 1.2rem 1.5rem; font-size: 0.88rem; color: var(--brown);
+  }
+  .pricing-table td:last-child { color: var(--rose); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; }
+  .table-badge {
+    display: inline-block; background: var(--rose); color: #fff;
+    font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.15rem 0.5rem; margin-left: 0.5rem; vertical-align: middle;
+  }
+  .table-wa {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: #25D366; color: #fff; padding: 0.35rem 0.8rem;
+    font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; font-weight: 500; transition: background 0.2s;
+  }
+  .table-wa:hover { background: #1da851; }
+
+  /* Gallery strip */
+  .gallery-strip {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 3px; background: var(--deep);
+  }
+  .gallery-item {
+    aspect-ratio: 3/4; overflow: hidden; cursor: pointer;
+  }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s, filter 0.4s;
+    filter: brightness(0.85);
+  }
+  .gallery-item:hover img { transform: scale(1.06); filter: brightness(1); }
+
+  /* FAQ */
+  .plaiting-faq { background: var(--cream); }
+  .faq-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 3rem; }
+  .faq-item { background: var(--cream); padding: 1.8rem; cursor: pointer; transition: background 0.2s; }
+  .faq-item:hover { background: var(--warm-white); }
+  .faq-q {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem; color: var(--brown); font-weight: 500;
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  }
+  .faq-toggle { color: var(--rose); flex-shrink: 0; transition: transform 0.3s; }
+  .faq-item.open .faq-toggle { transform: rotate(45deg); }
+  .faq-a {
+    font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease, margin-top 0.3s;
+  }
+  .faq-item.open .faq-a { max-height: 200px; margin-top: 0.8rem; }
+
+  @media (max-width: 900px) {
+    .styles-grid { grid-template-columns: 1fr 1fr; }
+    .expect-grid { grid-template-columns: 1fr; }
+    .expect-img-badge { right: 0; bottom: 0; }
+    .aftercare-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-strip { grid-template-columns: repeat(3, 1fr); }
+    .faq-cols { grid-template-columns: 1fr; }
+    .pricing-table { font-size: 0.82rem; }
+    .pricing-table th, .pricing-table td { padding: 0.9rem 1rem; }
+  }
+  @media (max-width: 600px) {
+    .styles-grid { grid-template-columns: 1fr; }
+    .aftercare-grid { grid-template-columns: 1fr; }
+    .gallery-strip { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">Botho Hair Boutique</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="../services.html">Services</a></li>
+    <li><a href="plaiting.html" class="active">Plaiting</a></li>
+    <li><a href="treatments.html">Treatments</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book%20a%20plaiting%20session." target="_blank" class="nav-cta">Book Now</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="services.html">All Services</a>
+  <a href="plaiting.html">Plaiting</a>
+  <a href="treatments.html">Treatments</a>
+  <a href="products.html">Products</a>
+  <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book." target="_blank">Book on WhatsApp</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-left">
+    <p class="section-tag">Service 01</p>
+    <h1 class="section-title">Expert <em>Plaiting</em><br>Services</h1>
+    <p class="section-sub">Neat, long-lasting protective styles crafted for your hair type and face shape. Pain-free, always.</p>
+    <div class="page-hero-actions">
+      <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book%20a%20plaiting%20session." target="_blank" class="btn-wa">💬 Book a Session</a>
+      <a href="#styles" class="btn-ghost" style="color:var(--rose-light);border-color:rgba(232,196,181,0.3)">See Styles ↓</a>
+    </div>
+  </div>
+  <div class="page-hero-right">
+    <img src="https://cse24-100.github.io/cse24-100/salon.jpeg" alt="Plaiting Services">
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="../index.html">Home</a><span>/</span>
+  <a href="../services.html">Services</a><span>/</span>
+  <strong>Plaiting</strong>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Box Braids</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Cornrows</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Fulani Braids</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Knotless Braids</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Straight Back</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Ghana Weaving</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Pain-Free Styling</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Box Braids</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Cornrows</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Fulani Braids</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Knotless Braids</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Straight Back</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Ghana Weaving</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Pain-Free Styling</span>
+  </div>
+</div>
+
+<!-- STYLES -->
+<section class="styles-section" id="styles">
+  <div class="reveal">
+    <p class="section-tag">Choose Your Style</p>
+    <h2 class="section-title">Our <em>Plaiting</em> Menu</h2>
+    <p class="section-sub">Every style is executed with care and precision. Not sure which to pick? WhatsApp us a photo of the look you want.</p>
+  </div>
+  <div class="styles-grid">
+    <div class="style-card reveal">
+      <div class="style-img">
+        <img src="https://cse24-100.github.io/cse24-100/braids.jpeg" alt="Box Braids">
+        <span class="style-popular">Most Booked</span>
+      </div>
+      <div class="style-info">
+        <h3>Box Braids</h3>
+        <p>Classic individual braids in any size — small, medium, or large. Neat, versatile, and a Botho signature. Lasts 4–6 weeks with proper care.</p>
+        <div class="style-meta">
+          <span class="style-price">from P350</span>
+          <span class="style-duration">⏱ 3–6 hrs</span>
+        </div>
+        <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book%20Box%20Braids." target="_blank" class="style-wa">💬 Book This Style</a>
+      </div>
+    </div>
+    <div class="style-card reveal">
+      <div class="style-img">
+        <img src="https://cse24-100.github.io/cse24-100/straight%20back.jpeg" alt="Straight Back">
+      </div>
+      <div class="style-info">
+        <h3>Straight Back Cornrows</h3>
+        <p>Clean, sleek cornrows going straight to the back. Low-maintenance and always sharp. A timeless style for any occasion.</p>
+        <div class="style-meta">
+          <span class="style-price">from P150</span>
+          <span class="style-duration">⏱ 1.5–2.5 hrs</span>
+        </div>
+        <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book%20Straight%20Back%20Cornrows." target="_blank" class="style-wa">💬 Book This Style</a>
+      </div>
+    </div>
+    <div class="style-card reveal">
+      <div class="style-img">
+        <img src="https://cse24-100.github.io/cse24-100/fulani.jpeg" alt="Fulani Braids">
+        <span class="style-popular">Statement Look</span>
+      </div>
+      <div class="style-info">
+        <h3>Fulani Braids</h3>
+        <p>Intricate pattern braids with a centre part, side braids, and signature accessories. A bold, cultural style that turns heads.</p>
+        <div class="style-meta">
+          <span class="style-price">from P450</span>
+          <span class="style-duration">⏱ 4–7 hrs</span>
+        </div>
+        <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book%20Fulani%20Braids." target="_blank" class="style-wa">💬 Book This Style</a>
+      </div>
+    </div>
+    <div class="style-card reveal">
+      <div class="style-img">
+        <img src="https://cse24-100.github.io/cse24-100/lovehair.webp" alt="Knotless Braids">
+        <span class="style-popular">Gentle on Scalp</span>
+      </div>
+      <div class="style-info">
+        <h3>Knotless Braids</h3>
+        <p>Lighter than traditional box braids with no tension at the roots. Ideal for sensitive scalps. A sleek, natural-looking result.</p>
+        <div class="style-meta">
+          <span class="style-price">from P400</span>
+          <span class="style-duration">⏱ 4–6 hrs</span>
+        </div>
+        <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book%20Knotless%20Braids." target="_blank" class="style-wa">💬 Book This Style</a>
+      </div>
+    </div>
+    <div class="style-card reveal">
+      <div class="style-img">
+        <img src="https://cse24-100.github.io/cse24-100/second.webp" alt="Ghana Weaving">
+      </div>
+      <div class="style-info">
+        <h3>Ghana Weaving</h3>
+        <p>Feed-in cornrows with a raised, three-dimensional effect. Perfect for special occasions and styled looks that last.</p>
+        <div class="style-meta">
+          <span class="style-price">from P200</span>
+          <span class="style-duration">⏱ 2–4 hrs</span>
+        </div>
+        <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book%20Ghana%20Weaving." target="_blank" class="style-wa">💬 Book This Style</a>
+      </div>
+    </div>
+    <div class="style-card reveal">
+      <div class="style-img" style="background:var(--rose-light);display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;padding:2rem;">
+          <div style="font-size:3rem;margin-bottom:1rem;">💬</div>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--brown);font-weight:500;">Custom Style</p>
+          <p style="font-size:0.8rem;color:var(--muted);margin-top:0.5rem;">Send us a reference photo</p>
+        </div>
+      </div>
+      <div class="style-info">
+        <h3>Custom / Reference Style</h3>
+        <p>Have a photo of the exact style you want? Send it to us on WhatsApp and we'll quote you and confirm availability.</p>
+        <div class="style-meta">
+          <span class="style-price">Price on request</span>
+        </div>
+        <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I%20have%20a%20reference%20photo%20of%20a%20style%20I%20want." target="_blank" class="style-wa">💬 Send Reference</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT TO EXPECT -->
+<section class="expect-section">
+  <div class="expect-grid">
+    <div class="expect-img reveal">
+      <img src="https://cse24-100.github.io/cse24-100/growth.jpg" alt="What to Expect">
+      <div class="expect-img-badge">
+        <strong>100%</strong>
+        <span>Pain-Free</span>
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="section-tag">The Experience</p>
+      <h2 class="section-title">What to <em>Expect</em></h2>
+      <p class="section-sub">We want every visit to feel relaxed and comfortable — from the moment you arrive to the moment you leave.</p>
+      <div class="expect-list">
+        <div class="expect-item">
+          <div class="expect-icon">💆‍♀️</div>
+          <div>
+            <h4>Consultation First</h4>
+            <p>We start with a quick chat about your hair type, lifestyle, and the look you want. No surprises.</p>
+          </div>
+        </div>
+        <div class="expect-item">
+          <div class="expect-icon">🧴</div>
+          <div>
+            <h4>Hair Prep & Wash</h4>
+            <p>We wash and condition your hair before styling to ensure a clean, healthy base for your braids.</p>
+          </div>
+        </div>
+        <div class="expect-item">
+          <div class="expect-icon">✂️</div>
+          <div>
+            <h4>Careful Sectioning</h4>
+            <p>Every section is neat and even — the foundation of clean, long-lasting braids.</p>
+          </div>
+        </div>
+        <div class="expect-item">
+          <div class="expect-icon">✨</div>
+          <div>
+            <h4>Finishing & Aftercare Advice</h4>
+            <p>We seal and finish your braids properly, then walk you through how to care for them at home.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AFTERCARE -->
+<section class="aftercare-section">
+  <div class="reveal">
+    <p class="section-tag">Keep Them Fresh</p>
+    <h2 class="section-title">Braid <em>Aftercare</em> Tips</h2>
+  </div>
+  <div class="aftercare-grid">
+    <div class="aftercare-card reveal">
+      <div class="aftercare-num">01</div>
+      <h4>Moisturise Daily</h4>
+      <p>Spray a light water-based moisturiser or hair mist on your braids and scalp every day to prevent dryness.</p>
+    </div>
+    <div class="aftercare-card reveal">
+      <div class="aftercare-num">02</div>
+      <h4>Sleep with a Satin Bonnet</h4>
+      <p>Cotton pillowcases cause friction and frizz. A satin bonnet or pillowcase keeps braids smooth and neat for longer.</p>
+    </div>
+    <div class="aftercare-card reveal">
+      <div class="aftercare-num">03</div>
+      <h4>Oil Your Scalp Weekly</h4>
+      <p>Apply a light oil (like our Growth Oil) to your scalp between braids every 5–7 days to keep it nourished.</p>
+    </div>
+    <div class="aftercare-card reveal">
+      <div class="aftercare-num">04</div>
+      <h4>Don't Leave In Too Long</h4>
+      <p>Remove braids by 6–8 weeks maximum. Leaving them longer risks matting, breakage, and scalp buildup.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING TABLE -->
+<section class="plaiting-pricing">
+  <div class="reveal">
+    <p class="section-tag">Pricing</p>
+    <h2 class="section-title"><em>Transparent</em> Pricing</h2>
+    <p class="section-sub">All prices in Botswana Pula. WhatsApp us to confirm exact pricing — it may vary based on hair length and thickness.</p>
+  </div>
+  <table class="pricing-table reveal">
+    <thead>
+      <tr>
+        <th>Style</th>
+        <th>Description</th>
+        <th>Duration</th>
+        <th>Price (BWP)</th>
+        <th>Book</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Straight Back Cornrows</td>
+        <td>Classic back cornrows, no extensions</td>
+        <td>1.5–2.5 hrs</td>
+        <td>from P150</td>
+        <td><a href="https://wa.me/26778416589?text=Book%20Straight%20Back%20Cornrows" target="_blank" class="table-wa">💬 Book</a></td>
+      </tr>
+      <tr>
+        <td>Ghana Weaving</td>
+        <td>Feed-in raised cornrows</td>
+        <td>2–4 hrs</td>
+        <td>from P200</td>
+        <td><a href="https://wa.me/26778416589?text=Book%20Ghana%20Weaving" target="_blank" class="table-wa">💬 Book</a></td>
+      </tr>
+      <tr class="featured-row">
+        <td>Box Braids <span class="table-badge">Popular</span></td>
+        <td>Individual braids, all sizes</td>
+        <td>3–6 hrs</td>
+        <td>from P350</td>
+        <td><a href="https://wa.me/26778416589?text=Book%20Box%20Braids" target="_blank" class="table-wa">💬 Book</a></td>
+      </tr>
+      <tr>
+        <td>Knotless Braids <span class="table-badge">Gentle</span></td>
+        <td>No-tension knotless method</td>
+        <td>4–6 hrs</td>
+        <td>from P400</td>
+        <td><a href="https://wa.me/26778416589?text=Book%20Knotless%20Braids" target="_blank" class="table-wa">💬 Book</a></td>
+      </tr>
+      <tr>
+        <td>Fulani Braids <span class="table-badge">Statement</span></td>
+        <td>Pattern braids with accessories</td>
+        <td>4–7 hrs</td>
+        <td>from P450</td>
+        <td><a href="https://wa.me/26778416589?text=Book%20Fulani%20Braids" target="_blank" class="table-wa">💬 Book</a></td>
+      </tr>
+      <tr>
+        <td>Custom Style</td>
+        <td>Reference photo required</td>
+        <td>Varies</td>
+        <td>Quote on request</td>
+        <td><a href="https://wa.me/26778416589?text=Custom%20style%20request" target="_blank" class="table-wa">💬 Enquire</a></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- GALLERY STRIP -->
+<div class="gallery-strip">
+  <div class="gallery-item"><img src="https://cse24-100.github.io/cse24-100/braids.jpeg" alt="Braids"></div>
+  <div class="gallery-item"><img src="https://cse24-100.github.io/cse24-100/fulani.jpeg" alt="Fulani"></div>
+  <div class="gallery-item"><img src="https://cse24-100.github.io/cse24-100/straight%20back.jpeg" alt="Straight Back"></div>
+  <div class="gallery-item"><img src="https://cse24-100.github.io/cse24-100/second.webp" alt="Style"></div>
+  <div class="gallery-item"><img src="https://cse24-100.github.io/cse24-100/lovehair.webp" alt="Hair"></div>
+</div>
+
+<!-- FAQ -->
+<section class="plaiting-faq">
+  <div class="reveal">
+    <p class="section-tag">Questions</p>
+    <h2 class="section-title">Plaiting <em>FAQ</em></h2>
+  </div>
+  <div class="faq-cols">
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">How long do braids last? <span class="faq-toggle">+</span></div>
+      <div class="faq-a">With proper care, our braids last 4–8 weeks. We recommend removing them by week 6–8 to protect your natural hair.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Do I need to bring my own hair? <span class="faq-toggle">+</span></div>
+      <div class="faq-a">No — we supply extensions for most styles. Just tell us your preferred length and colour when booking.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Is plaiting painful? <span class="faq-toggle">+</span></div>
+      <div class="faq-a">Not at Botho. We specialise in pain-free styling — we never pull too tight and check your comfort throughout.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Can I wash my braids? <span class="faq-toggle">+</span></div>
+      <div class="faq-a">Yes. Use a diluted shampoo, focus on the scalp, and let them air dry completely to prevent mildew or loosening.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">What should I do before my appointment? <span class="faq-toggle">+</span></div>
+      <div class="faq-a">Come with detangled, clean hair if possible — or we can wash it for you. Bring a reference photo if you have one.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">How do I book? <span class="faq-toggle">+</span></div>
+      <div class="faq-a">Just WhatsApp us! Tell us which style you want and your preferred date. We'll confirm your slot quickly.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="../index.html" class="nav-logo">Botho Hair Boutique</a>
+      <p>Premium hair care services in Gaborone. Expert plaiting, treatments, and growth products for every hair type.</p>
+      <a href="https://wa.me/26778416589" target="_blank" class="footer-wa-link">💬 Chat With Us</a>
+    </div>
+    <div><h5>Services</h5><ul>
+      <li><a href="plaiting.html">Plaiting Services</a></li>
+      <li><a href="treatments.html">Hair Treatments</a></li>
+      <li><a href="products.html">Hair Products</a></li>
+    </ul></div>
+    <div><h5>Navigate</h5><ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../services.html">All Services</a></li>
+      <li><a href="../index.html#pricing">Pricing</a></li>
+      <li><a href="../index.html#faq">FAQ</a></li>
+    </ul></div>
+    <div class="footer-contact"><h5>Find Us</h5>
+      <p>📍 Gaborone, Botswana</p>
+      <p style="margin-top:0.5rem">💬 +267 00 000 000</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Botho Hair Boutique. All rights reserved.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn">fb</a>
+      <a href="#" class="social-btn">ig</a>
+      <a href="https://wa.me/26778416589" target="_blank" class="social-btn">wa</a>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book%20a%20plaiting%20session." target="_blank" class="floating-wa">💬</a>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').style.boxShadow = window.scrollY > 50 ? '0 4px 24px rgba(26,20,16,0.08)' : 'none';
+  });
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  function toggleFaq(item) { item.classList.toggle('open'); }
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); observer.unobserve(el.target); } });
+  }, { threshold: 0.08 });
+  reveals.forEach((el, i) => { el.style.transitionDelay = `${(i % 3) * 0.1}s`; observer.observe(el); });
+</script>
+</body>
+</html>

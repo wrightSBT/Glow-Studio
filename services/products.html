@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hair Products — Botho Hair Boutique</title>
+<link rel="stylesheet" href="../shared.css">
+<style>
+  /* ── PRODUCTS PAGE ── */
+
+  /* Category tabs */
+  .cat-bar {
+    background: var(--warm-white); padding: 1.5rem 4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0; flex-wrap: wrap;
+  }
+  .cat-tab {
+    padding: 0.55rem 1.5rem; border: 1px solid var(--border);
+    margin-right: -1px; background: transparent;
+    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--brown); cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-weight: 500; transition: all 0.25s;
+  }
+  .cat-tab.active, .cat-tab:hover { background: var(--brown); color: var(--cream); border-color: var(--brown); z-index: 1; }
+
+  /* Products intro split */
+  .products-intro {
+    background: var(--cream); display: grid;
+    grid-template-columns: 1fr 1fr; min-height: 55vh;
+  }
+  .pi-left {
+    padding: 5rem 4rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .pi-right {
+    background: var(--brown); position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center; padding: 4rem;
+  }
+  .pi-product-visual {
+    text-align: center; color: var(--cream);
+  }
+  .pi-product-visual .big-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8rem; font-weight: 300; color: rgba(232,196,181,0.2);
+    line-height: 1; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%); white-space: nowrap;
+  }
+  .pi-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; position: relative; z-index: 1; }
+  .pi-stat {
+    background: rgba(255,255,255,0.06); padding: 1.5rem; text-align: center;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .pi-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--rose-light); font-weight: 300; }
+  .pi-stat-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,246,241,0.5); margin-top: 0.3rem; }
+  .pi-left .intro-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .pi-tag {
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    border: 1px solid var(--border); color: var(--muted); padding: 0.3rem 0.8rem;
+  }
+
+  /* Product grid */
+  .shop-section { background: var(--warm-white); }
+  .products-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px; background: var(--border); margin-top: 3rem;
+  }
+  .product-card {
+    background: var(--warm-white); overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: background 0.3s;
+  }
+  .product-card:hover { background: var(--cream); }
+  .prod-img {
+    position: relative; aspect-ratio: 1; overflow: hidden;
+    background: var(--rose-light);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .prod-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+  .product-card:hover .prod-img img { transform: scale(1.05); }
+  .prod-badge {
+    position: absolute; top: 1rem; left: 1rem;
+    font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.25rem 0.7rem; font-weight: 500;
+  }
+  .badge-bestseller { background: var(--rose); color: #fff; }
+  .badge-new { background: var(--brown); color: var(--cream); }
+  .badge-bundle { background: var(--gold); color: #fff; }
+  .prod-info { padding: 1.8rem; flex: 1; display: flex; flex-direction: column; }
+  .prod-category { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.5rem; }
+  .prod-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; color: var(--brown); margin-bottom: 0.6rem; font-weight: 500;
+  }
+  .prod-info p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; flex: 1; }
+  .prod-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid var(--border); }
+  .prod-price { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--rose); font-weight: 300; }
+  .prod-size { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .prod-order {
+    display: block; text-align: center; margin-top: 1rem;
+    background: var(--brown); color: var(--cream);
+    padding: 0.7rem; font-size: 0.72rem; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none; font-weight: 500;
+    transition: background 0.3s;
+  }
+  .prod-order:hover { background: var(--rose); }
+
+  /* Bundle highlight */
+  .bundle-section {
+    background: var(--rose-light); padding: 5rem 4rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  }
+  .bundle-section .section-title { color: var(--brown); }
+  .bundle-items { margin-top: 2rem; }
+  .bundle-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 0; border-bottom: 1px solid rgba(61,43,31,0.1);
+  }
+  .bundle-item:last-child { border-bottom: none; }
+  .bundle-item-icon { font-size: 1.5rem; }
+  .bundle-item h4 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--brown); font-weight: 500; }
+  .bundle-item p { font-size: 0.78rem; color: var(--brown); opacity: 0.6; }
+  .bundle-price-block { margin-top: 2.5rem; }
+  .bundle-orig { font-size: 0.82rem; color: var(--muted); text-decoration: line-through; }
+  .bundle-save { font-size: 0.72rem; background: var(--rose); color: #fff; padding: 0.2rem 0.6rem; margin-left: 0.5rem; }
+  .bundle-total { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--brown); font-weight: 300; margin-top: 0.5rem; }
+  .bundle-right { position: relative; }
+  .bundle-right img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .bundle-tag {
+    position: absolute; top: -1rem; right: -1rem;
+    background: var(--brown); color: var(--cream);
+    width: 5rem; height: 5rem; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; text-align: center;
+  }
+  .bundle-tag strong { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; display: block; letter-spacing: 0; }
+
+  /* How to use */
+  .howto-section { background: var(--cream); }
+  .howto-tabs { display: flex; gap: 0; margin-top: 3rem; border-bottom: 1px solid var(--border); }
+  .howto-tab {
+    padding: 0.8rem 2rem; font-size: 0.75rem; letter-spacing: 0.1em;
+    text-transform: uppercase; background: none; border: none;
+    color: var(--muted); cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-weight: 500; position: relative; bottom: -1px;
+    transition: color 0.2s;
+  }
+  .howto-tab.active { color: var(--brown); border-bottom: 2px solid var(--rose); }
+  .howto-content { display: none; padding: 2.5rem 0; }
+  .howto-content.active { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .howto-step { }
+  .howto-step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; color: var(--rose-light); font-weight: 300; line-height: 1; margin-bottom: 0.8rem;
+  }
+  .howto-step h4 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--brown); margin-bottom: 0.4rem; font-weight: 500; }
+  .howto-step p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  /* Delivery info */
+  .delivery-section { background: var(--brown); padding: 3.5rem 4rem; }
+  .delivery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: rgba(255,255,255,0.1); margin-top: 2rem; }
+  .delivery-card { background: rgba(255,255,255,0.04); padding: 2rem; }
+  .delivery-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .delivery-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); margin-bottom: 0.5rem; font-weight: 500; }
+  .delivery-card p { font-size: 0.8rem; color: rgba(250,246,241,0.55); line-height: 1.6; }
+
+  @media (max-width: 900px) {
+    .products-intro { grid-template-columns: 1fr; }
+    .pi-right { padding: 3rem 1.5rem; min-height: 220px; }
+    .cat-bar { padding: 1rem 1.5rem; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    .bundle-section { grid-template-columns: 1fr; }
+    .bundle-right { display: none; }
+    .howto-content.active { grid-template-columns: 1fr 1fr; }
+    .delivery-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .howto-content.active { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">Botho Hair Boutique</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../services.html">Services</a></li>
+    <li><a href="plaiting.html">Plaiting</a></li>
+    <li><a href="treatments.html">Treatments</a></li>
+    <li><a href="products.html" class="active">Products</a></li>
+    <li><a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20order%20a%20product." target="_blank" class="nav-cta">Order Now</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html">Home</a>
+  <a href="../services.html">All Services</a>
+  <a href="plaiting.html">Plaiting</a>
+  <a href="treatments.html">Treatments</a>
+  <a href="products.html">Products</a>
+  <a href="https://wa.me/26700000000?text=Hi%20Botho!" target="_blank">Order on WhatsApp</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-left">
+    <p class="section-tag">Service 03</p>
+    <h1 class="section-title">Premium <em>Hair</em><br>Products</h1>
+    <p class="section-sub">Formulated with natural ingredients to nourish, grow, and protect every hair type. Order via WhatsApp — delivery available across Gaborone.</p>
+    <div class="page-hero-actions">
+      <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20order%20some%20products." target="_blank" class="btn-wa">💬 Order on WhatsApp</a>
+      <a href="#shop" class="btn-ghost" style="color:var(--rose-light);border-color:rgba(232,196,181,0.3)">Browse Products ↓</a>
+    </div>
+  </div>
+  <div class="page-hero-right">
+    <img src="https://cse24-100.github.io/cse24-100/growth.jpg" alt="Hair Products">
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <a href="../index.html">Home</a><span>/</span>
+  <a href="../services.html">Services</a><span>/</span>
+  <strong>Products</strong>
+</div>
+
+<!-- INTRO SPLIT -->
+<div class="products-intro">
+  <div class="pi-left reveal">
+    <p class="section-tag">Why Our Products</p>
+    <h2 class="section-title">Made for <em>African</em><br>Hair Textures</h2>
+    <p class="section-sub">Our products are specifically selected and tested for the hair types common in Botswana — natural, textured, and protective styles. No harsh chemicals, no empty promises.</p>
+    <div class="pi-left intro-tags">
+      <span class="pi-tag">Natural Ingredients</span>
+      <span class="pi-tag">No Parabens</span>
+      <span class="pi-tag">Sulfate-Free</span>
+      <span class="pi-tag">All Hair Types</span>
+      <span class="pi-tag">Gaborone Delivery</span>
+    </div>
+    <div style="margin-top:2.5rem">
+      <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20help%20choosing%20the%20right%20product%20for%20my%20hair." target="_blank" class="btn-wa">💬 Get a Product Recommendation</a>
+    </div>
+  </div>
+  <div class="pi-right">
+    <div class="big-num">100%</div>
+    <div class="pi-stats">
+      <div class="pi-stat reveal">
+        <div class="pi-stat-num">100%</div>
+        <div class="pi-stat-label">Natural Base</div>
+      </div>
+      <div class="pi-stat reveal">
+        <div class="pi-stat-num">Free</div>
+        <div class="pi-stat-label">Gabs Delivery P150+</div>
+      </div>
+      <div class="pi-stat reveal">
+        <div class="pi-stat-num">3+</div>
+        <div class="pi-stat-label">Product Lines</div>
+      </div>
+      <div class="pi-stat reveal">
+        <div class="pi-stat-num">Fast</div>
+        <div class="pi-stat-label">WhatsApp Ordering</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORY FILTER -->
+<div class="cat-bar">
+  <button class="cat-tab active" onclick="filterProducts('all', this)">All Products</button>
+  <button class="cat-tab" onclick="filterProducts('growth', this)">Growth</button>
+  <button class="cat-tab" onclick="filterProducts('moisture', this)">Moisture</button>
+  <button class="cat-tab" onclick="filterProducts('daily', this)">Daily Care</button>
+  <button class="cat-tab" onclick="filterProducts('bundle', this)">Bundles</button>
+</div>
+
+<!-- PRODUCTS GRID -->
+<section class="shop-section" id="shop">
+  <div class="reveal">
+    <p class="section-tag">The Range</p>
+    <h2 class="section-title">Shop <em>All</em> Products</h2>
+    <p class="section-sub">WhatsApp us the product name and quantity — we'll confirm stock and arrange payment and delivery.</p>
+  </div>
+  <div class="products-grid" id="productsGrid">
+
+    <div class="product-card reveal" data-cat="growth">
+      <div class="prod-img">
+        <img src="https://cse24-100.github.io/cse24-100/growth.jpg" alt="Growth Oil">
+        <span class="prod-badge badge-bestseller">Best Seller</span>
+      </div>
+      <div class="prod-info">
+        <div class="prod-category">Growth</div>
+        <h3>Botho Growth Oil</h3>
+        <p>Our signature blend of castor, coconut, and rosemary oils. Stimulates follicles, reduces breakage, and promotes visible growth within 4–6 weeks.</p>
+        <div class="prod-meta">
+          <span class="prod-price">P95</span>
+          <span class="prod-size">60ml bottle</span>
+        </div>
+        <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20order%20the%20Botho%20Growth%20Oil." target="_blank" class="prod-order">💬 Order Now</a>
+      </div>
+    </div>
+
+    <div class="product-card reveal" data-cat="moisture">
+      <div class="prod-img">
+        <img src="https://cse24-100.github.io/cse24-100/thick.jpeg" alt="Deep Repair Mask">
+        <span class="prod-badge badge-bestseller">Popular</span>
+      </div>
+      <div class="prod-info">
+        <div class="prod-category">Moisture</div>
+        <h3>Deep Repair Mask</h3>
+        <p>Intensive weekly treatment mask for dry, brittle, or over-processed hair. Packed with shea butter and honey for deep hydration that lasts.</p>
+        <div class="prod-meta">
+          <span class="prod-price">P110</span>
+          <span class="prod-size">250ml jar</span>
+        </div>
+        <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20order%20the%20Deep%20Repair%20Mask." target="_blank" class="prod-order">💬 Order Now</a>
+      </div>
+    </div>
+
+    <div class="product-card reveal" data-cat="bundle">
+      <div class="prod-img">
+        <img src="https://cse24-100.github.io/cse24-100/lovehair.webp" alt="Growth Bundle">
+        <span class="prod-badge badge-bundle">Bundle Deal</span>
+      </div>
+      <div class="prod-info">
+        <div class="prod-category">Bundle</div>
+        <h3>12-Week Growth Bundle</h3>
+        <p>Everything you need for a complete hair growth journey — Growth Oil, Deep Repair Mask, and Strengthening Shampoo. Save P75 vs buying separately.</p>
+        <div class="prod-meta">
+          <span class="prod-price">P220</span>
+          <span class="prod-size">3-item kit</span>
+        </div>
+        <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20order%20the%2012-Week%20Growth%20Bundle." target="_blank" class="prod-order">💬 Order Bundle</a>
+      </div>
+    </div>
+
+    <div class="product-card reveal" data-cat="daily">
+      <div class="prod-img">
+        <img src="https://cse24-100.github.io/cse24-100/second.webp" alt="Strengthening Shampoo">
+        <span class="prod-badge badge-new">New</span>
+      </div>
+      <div class="prod-info">
+        <div class="prod-category">Daily Care</div>
+        <h3>Strengthening Shampoo</h3>
+        <p>Sulfate-free shampoo enriched with biotin and keratin. Cleanses gently while strengthening the hair shaft and reducing shedding over time.</p>
+        <div class="prod-meta">
+          <span class="prod-price">P85</span>
+          <span class="prod-size">200ml bottle</span>
+        </div>
+        <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20order%20the%20Strengthening%20Shampoo." target="_blank" class="prod-order">💬 Order Now</a>
+      </div>
+    </div>
+
+    <div class="product-card reveal" data-cat="daily">
+      <div class="prod-img">
+        <img src="https://cse24-100.github.io/cse24-100/salon.jpeg" alt="Leave-In Conditioner">
+      </div>
+      <div class="prod-info">
+        <div class="prod-category">Daily Care</div>
+        <h3>Leave-In Conditioner</h3>
+        <p>Lightweight daily moisture spray that detangles, softens, and adds shine without weighing hair down. Perfect for natural and braided styles.</p>
+        <div class="prod-meta">
+          <span class="prod-price">P75</span>
+          <span class="prod-size">150ml spray</span>
+        </div>
+        <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20order%20the%20Leave-In%20Conditioner." target="_blank" class="prod-order">💬 Order Now</a>
+      </div>
+    </div>
+
+    <div class="product-card reveal" data-cat="growth">
+      <div class="prod-img">
+        <img src="https://cse24-100.github.io/cse24-100/thinning.jpeg" alt="Scalp Serum">
+        <span class="prod-badge badge-new">New</span>
+      </div>
+      <div class="prod-info">
+        <div class="prod-category">Growth</div>
+        <h3>Scalp Activation Serum</h3>
+        <p>A targeted scalp serum with peppermint and neem oil to stimulate dormant follicles, reduce inflammation, and create the ideal environment for growth.</p>
+        <div class="prod-meta">
+          <span class="prod-price">P120</span>
+          <span class="prod-size">30ml dropper</span>
+        </div>
+        <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20order%20the%20Scalp%20Activation%20Serum." target="_blank" class="prod-order">💬 Order Now</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BUNDLE HIGHLIGHT -->
+<div class="bundle-section">
+  <div class="reveal">
+    <p class="section-tag">Best Value</p>
+    <h2 class="section-title">The 12-Week<br><em>Growth Bundle</em></h2>
+    <p class="section-sub">The complete kit for a full hair growth journey. Three products that work together for maximum results.</p>
+    <div class="bundle-items">
+      <div class="bundle-item">
+        <div class="bundle-item-icon">🌿</div>
+        <div><h4>Botho Growth Oil — 60ml</h4><p>Daily scalp application to stimulate growth</p></div>
+      </div>
+      <div class="bundle-item">
+        <div class="bundle-item-icon">🧴</div>
+        <div><h4>Deep Repair Mask — 250ml</h4><p>Weekly intensive moisture treatment</p></div>
+      </div>
+      <div class="bundle-item">
+        <div class="bundle-item-icon">💧</div>
+        <div><h4>Strengthening Shampoo — 200ml</h4><p>Twice-weekly cleanse and strengthen</p></div>
+      </div>
+    </div>
+    <div class="bundle-price-block">
+      <div><span class="bundle-orig">Separately: P295</span><span class="bundle-save">Save P75</span></div>
+      <div class="bundle-total">P220</div>
+    </div>
+    <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap">
+      <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20order%20the%2012-Week%20Growth%20Bundle." target="_blank" class="btn-wa">💬 Order the Bundle</a>
+      <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I%20have%20a%20question%20about%20the%20Growth%20Bundle." target="_blank" class="btn-ghost">Ask a Question</a>
+    </div>
+  </div>
+  <div class="bundle-right reveal">
+    <img src="https://cse24-100.github.io/cse24-100/thick.jpeg" alt="Bundle Results">
+    <div class="bundle-tag"><strong>3</strong>Products</div>
+  </div>
+</div>
+
+<!-- HOW TO USE -->
+<section class="howto-section">
+  <div class="reveal">
+    <p class="section-tag">Usage Guide</p>
+    <h2 class="section-title">How to Use <em>Each</em> Product</h2>
+  </div>
+  <div class="howto-tabs">
+    <button class="howto-tab active" onclick="showHowto('oil', this)">Growth Oil</button>
+    <button class="howto-tab" onclick="showHowto('mask', this)">Repair Mask</button>
+    <button class="howto-tab" onclick="showHowto('shampoo', this)">Shampoo</button>
+  </div>
+  <div class="howto-content active" id="howto-oil">
+    <div class="howto-step reveal"><div class="howto-step-num">01</div><h4>Section Hair</h4><p>Part your hair into 4–6 sections to expose the scalp.</p></div>
+    <div class="howto-step reveal"><div class="howto-step-num">02</div><h4>Apply to Scalp</h4><p>Drop a few drops directly onto the scalp along each parting.</p></div>
+    <div class="howto-step reveal"><div class="howto-step-num">03</div><h4>Massage In</h4><p>Use your fingertips to massage in circular motions for 2–3 minutes.</p></div>
+    <div class="howto-step reveal"><div class="howto-step-num">04</div><h4>Repeat Daily</h4><p>Use every morning or evening for best results. Do not rinse out.</p></div>
+  </div>
+  <div class="howto-content" id="howto-mask">
+    <div class="howto-step"><div class="howto-step-num">01</div><h4>Shampoo First</h4><p>Start with freshly washed, towel-dried hair.</p></div>
+    <div class="howto-step"><div class="howto-step-num">02</div><h4>Apply Generously</h4><p>Work the mask from mid-shaft to ends, avoiding the scalp.</p></div>
+    <div class="howto-step"><div class="howto-step-num">03</div><h4>Wait 15–30 Min</h4><p>Cover with a shower cap. Add heat for deeper penetration.</p></div>
+    <div class="howto-step"><div class="howto-step-num">04</div><h4>Rinse Thoroughly</h4><p>Rinse with cool water to seal the cuticle and lock in moisture.</p></div>
+  </div>
+  <div class="howto-content" id="howto-shampoo">
+    <div class="howto-step"><div class="howto-step-num">01</div><h4>Wet Hair Fully</h4><p>Saturate all hair and scalp with warm water.</p></div>
+    <div class="howto-step"><div class="howto-step-num">02</div><h4>Apply & Lather</h4><p>Work a palm-sized amount into a gentle lather on the scalp.</p></div>
+    <div class="howto-step"><div class="howto-step-num">03</div><h4>Cleanse Scalp</h4><p>Focus on the scalp — the shampoo will clean the lengths as it rinses.</p></div>
+    <div class="howto-step"><div class="howto-step-num">04</div><h4>Follow with Mask</h4><p>Always follow with the Deep Repair Mask for best results.</p></div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section class="delivery-section">
+  <div class="reveal">
+    <p class="section-tag" style="color:var(--rose-light)">Ordering & Delivery</p>
+    <h2 class="section-title" style="color:var(--cream)">Fast, <em>Easy</em> Ordering</h2>
+  </div>
+  <div class="delivery-grid">
+    <div class="delivery-card reveal">
+      <div class="delivery-icon">💬</div>
+      <h4>WhatsApp Order</h4>
+      <p>Message us the product name and quantity. We confirm stock and send payment details — all in one chat.</p>
+    </div>
+    <div class="delivery-card reveal">
+      <div class="delivery-icon">🚗</div>
+      <h4>Gaborone Delivery</h4>
+      <p>Free delivery on orders over P150 within Gaborone. Standard delivery P25 for smaller orders. Same-day on select areas.</p>
+    </div>
+    <div class="delivery-card reveal">
+      <div class="delivery-icon">🏪</div>
+      <h4>In-Salon Pickup</h4>
+      <p>Order in advance and collect from the salon at your next appointment — no delivery fee, ready when you arrive.</p>
+    </div>
+  </div>
+  <div style="margin-top:2.5rem;text-align:center">
+    <a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20place%20a%20product%20order." target="_blank" class="btn-wa" style="margin:0 auto">💬 Start Your Order</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="../index.html" class="nav-logo">Botho Hair Boutique</a>
+      <p>Premium hair care services and products in Gaborone, Botswana.</p>
+      <a href="https://wa.me/26700000000" target="_blank" class="footer-wa-link">💬 Chat With Us</a>
+    </div>
+    <div><h5>Products</h5><ul>
+      <li><a href="https://wa.me/26700000000?text=Order%20Growth%20Oil" target="_blank">Growth Oil</a></li>
+      <li><a href="https://wa.me/26700000000?text=Order%20Repair%20Mask" target="_blank">Deep Repair Mask</a></li>
+      <li><a href="https://wa.me/26700000000?text=Order%20Bundle" target="_blank">Growth Bundle</a></li>
+    </ul></div>
+    <div><h5>Services</h5><ul>
+      <li><a href="plaiting.html">Plaiting</a></li>
+      <li><a href="treatments.html">Treatments</a></li>
+      <li><a href="../services.html">All Services</a></li>
+    </ul></div>
+    <div class="footer-contact"><h5>Order & Delivery</h5>
+      <p>📍 Gaborone, Botswana</p>
+      <p style="margin-top:0.5rem">💬 +267 00 000 000</p>
+      <p style="margin-top:0.5rem">Free delivery on P150+</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Botho Hair Boutique. All rights reserved.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn">fb</a><a href="#" class="social-btn">ig</a>
+      <a href="https://wa.me/26700000000" target="_blank" class="social-btn">wa</a>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/26700000000?text=Hi%20Botho!%20I'd%20like%20to%20order%20products." target="_blank" class="floating-wa">💬</a>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').style.boxShadow = window.scrollY > 50 ? '0 4px 24px rgba(26,20,16,0.08)' : 'none';
+  });
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+  function filterProducts(cat, btn) {
+    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'flex' : 'none';
+    });
+  }
+
+  function showHowto(tab, btn) {
+    document.querySelectorAll('.howto-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.howto-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('howto-' + tab).classList.add('active');
+  }
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); observer.unobserve(el.target); } });
+  }, { threshold: 0.08 });
+  reveals.forEach((el, i) => { el.style.transitionDelay = `${(i % 3) * 0.1}s`; observer.observe(el); });
+</script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — Botho Hair Boutique</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* ── SERVICES HUB SPECIFIC ── */
+
+  /* Filter bar */
+  .filter-bar {
+    background: var(--warm-white); padding: 1.5rem 4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .filter-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .filter-btn {
+    padding: 0.4rem 1.2rem; border: 1px solid var(--border);
+    background: transparent; font-size: 0.75rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--brown); cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    transition: all 0.25s;
+  }
+  .filter-btn.active, .filter-btn:hover { background: var(--brown); color: var(--cream); border-color: var(--brown); }
+
+  /* Services intro */
+  .services-intro {
+    background: var(--cream); padding: 5rem 4rem 3rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end;
+  }
+  .intro-stats { display: flex; gap: 3rem; margin-top: 2.5rem; }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; font-weight: 300; color: var(--rose); line-height: 1;
+  }
+  .stat-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.3rem; }
+
+  /* Main service cards */
+  .services-main { background: var(--warm-white); padding: 0 4rem 6rem; }
+  .service-feature {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--border); margin-bottom: 1.5px;
+    background: var(--warm-white);
+    transition: background 0.3s;
+    text-decoration: none; color: inherit;
+  }
+  .service-feature:hover { background: var(--cream); }
+  .service-feature.reverse { direction: rtl; }
+  .service-feature.reverse > * { direction: ltr; }
+
+  .sf-image {
+    position: relative; overflow: hidden;
+    aspect-ratio: 4/3; background: var(--rose-light);
+  }
+  .sf-image img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .service-feature:hover .sf-image img { transform: scale(1.04); }
+  .sf-badge {
+    position: absolute; top: 1.5rem; left: 1.5rem;
+    background: var(--brown); color: var(--cream);
+    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.3rem 0.8rem; font-weight: 500;
+  }
+  .sf-content {
+    padding: 3rem; display: flex; flex-direction: column; justify-content: center;
+  }
+  .sf-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; font-weight: 300; color: var(--rose-light);
+    line-height: 1; margin-bottom: 1rem;
+  }
+  .sf-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 400; color: var(--brown); margin-bottom: 1rem;
+  }
+  .sf-content h2 em { font-style: italic; }
+  .sf-content p { font-size: 0.9rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
+  .sf-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; }
+  .sf-tag {
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    border: 1px solid var(--border); color: var(--muted);
+    padding: 0.25rem 0.7rem;
+  }
+  .sf-links { display: flex; gap: 1rem; align-items: center; }
+  .sf-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; color: var(--rose); font-weight: 400;
+  }
+  .sf-price small { font-size: 0.72rem; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 400; }
+
+  /* Add-ons strip */
+  .addons-section { background: var(--brown); padding: 4rem; }
+  .addons-section .section-title { color: var(--cream); }
+  .addons-section .section-tag { color: var(--rose-light); }
+  .addons-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: rgba(255,255,255,0.1); margin-top: 3rem;
+  }
+  .addon-card {
+    background: rgba(255,255,255,0.04); padding: 2rem;
+    transition: background 0.3s;
+  }
+  .addon-card:hover { background: rgba(255,255,255,0.08); }
+  .addon-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .addon-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--cream); margin-bottom: 0.5rem; font-weight: 500;
+  }
+  .addon-card p { font-size: 0.8rem; color: rgba(250,246,241,0.55); line-height: 1.6; }
+  .addon-price {
+    margin-top: 1rem; font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; color: var(--rose-light); font-weight: 300;
+  }
+
+  /* Process strip */
+  .process-section { background: var(--cream); }
+  .process-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 0; margin-top: 3.5rem; position: relative;
+  }
+  .process-grid::before {
+    content: ''; position: absolute;
+    top: 1.8rem; left: 10%; right: 10%; height: 1px; background: var(--border);
+  }
+  .process-step { text-align: center; padding: 0 1rem; position: relative; z-index: 1; }
+  .ps-circle {
+    width: 3.5rem; height: 3.5rem; border-radius: 50%;
+    background: var(--warm-white); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--brown); font-weight: 500;
+    transition: all 0.3s;
+  }
+  .process-step:hover .ps-circle { background: var(--rose); border-color: var(--rose); color: #fff; }
+  .process-step h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; color: var(--brown); margin-bottom: 0.4rem; font-weight: 500;
+  }
+  .process-step p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  /* CTA banner */
+  .cta-banner {
+    background: var(--rose-light); padding: 5rem 4rem;
+    display: flex; justify-content: space-between; align-items: center; gap: 3rem;
+  }
+  .cta-banner-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem); color: var(--brown); font-weight: 300;
+  }
+  .cta-banner-text h2 em { font-style: italic; }
+  .cta-banner-text p { font-size: 0.9rem; color: var(--brown); opacity: 0.7; margin-top: 0.5rem; }
+  .cta-banner-actions { display: flex; gap: 1rem; flex-shrink: 0; }
+
+  @media (max-width: 900px) {
+    .services-intro { grid-template-columns: 1fr; gap: 2rem; }
+    .services-main { padding: 0 1.5rem 4rem; }
+    .service-feature { grid-template-columns: 1fr; }
+    .service-feature.reverse { direction: ltr; }
+    .sf-image { aspect-ratio: 16/9; }
+    .sf-content { padding: 2rem 1.5rem; }
+    .addons-grid { grid-template-columns: 1fr 1fr; }
+    .process-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .process-grid::before { display: none; }
+    .filter-bar { padding: 1rem 1.5rem; }
+    .cta-banner { flex-direction: column; text-align: center; }
+    .cta-banner-actions { justify-content: center; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">Botho Hair Boutique</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="plaiting.html">Plaiting</a></li>
+    <li><a href="treatments.html">Treatments</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book%20an%20appointment." target="_blank" class="nav-cta">Book Now</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="services.html">Services</a>
+  <a href="plaiting.html">Plaiting</a>
+  <a href="treatments.html">Treatments</a>
+  <a href="products.html">Products</a>
+  <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book." target="_blank">Book on WhatsApp</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-left">
+    <p class="section-tag">Everything We Offer</p>
+    <h1 class="section-title">Our <em>Services</em></h1>
+    <p class="section-sub">Expert hair care from head to toe — plaiting, growth treatments, and premium products. All bookable directly via WhatsApp.</p>
+    <div class="page-hero-actions">
+      <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'd%20like%20to%20book%20an%20appointment." target="_blank" class="btn-wa">💬 Book on WhatsApp</a>
+      <a href="#all-services" class="btn-ghost" style="color:var(--rose-light);border-color:rgba(232,196,181,0.3)">Browse Services ↓</a>
+    </div>
+  </div>
+  <div class="page-hero-right">
+    <img src="https://cse24-100.github.io/cse24-100/hair-salon.avif" alt="Botho Hair Boutique Services">
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">Home</a>
+  <span>/</span>
+  <strong>Services</strong>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Browse:</span>
+  <button class="filter-btn active" onclick="filterServices('all', this)">All Services</button>
+  <button class="filter-btn" onclick="filterServices('plaiting', this)">Plaiting</button>
+  <button class="filter-btn" onclick="filterServices('treatment', this)">Treatments</button>
+  <button class="filter-btn" onclick="filterServices('product', this)">Products</button>
+</div>
+
+<!-- INTRO -->
+<div class="services-intro">
+  <div class="reveal">
+    <p class="section-tag">Why Choose Botho</p>
+    <h2 class="section-title">Hair Care Done<br><em>Properly</em></h2>
+    <p class="section-sub">Every service at Botho Hair Boutique is delivered with attention to your hair health, your comfort, and the result you're after. No rushing, no pain, no compromise.</p>
+  </div>
+  <div class="reveal">
+    <div class="intro-stats">
+      <div class="stat-item">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Service Categories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Pain-Free Promise</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">WhatsApp</div>
+        <div class="stat-label">Instant Booking</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN SERVICE CARDS -->
+<div class="services-main" id="all-services">
+
+  <!-- Plaiting -->
+  <a href="services/plaiting.html" class="service-feature reveal" data-category="plaiting">
+    <div class="sf-image">
+      <img src="https://cse24-100.github.io/cse24-100/salon.jpeg" alt="Plaiting Services">
+      <span class="sf-badge">Plaiting</span>
+    </div>
+    <div class="sf-content">
+      <div class="sf-num">01</div>
+      <h2>Expert <em>Plaiting</em><br>Services</h2>
+      <p>From sleek cornrows and neat straight-backs to intricate box braids and statement fulani styles — we create protective styles that look beautiful and last. Every style is tailored to your hair type, face shape, and lifestyle.</p>
+      <div class="sf-tags">
+        <span class="sf-tag">Cornrows</span>
+        <span class="sf-tag">Box Braids</span>
+        <span class="sf-tag">Fulani Braids</span>
+        <span class="sf-tag">Straight Back</span>
+        <span class="sf-tag">Knotless Braids</span>
+      </div>
+      <div class="sf-links">
+        <span class="btn-primary">Explore Plaiting →</span>
+        <span class="sf-price">from P150 <small>/ session</small></span>
+      </div>
+    </div>
+  </a>
+
+  <!-- Treatments -->
+  <a href="services/treatments.html" class="service-feature reverse reveal" data-category="treatment">
+    <div class="sf-image">
+      <img src="https://cse24-100.github.io/cse24-100/treat.jpeg" alt="Hair Treatments">
+      <span class="sf-badge">Treatments</span>
+    </div>
+    <div class="sf-content">
+      <div class="sf-num">02</div>
+      <h2>Restorative <em>Hair</em><br>Treatments</h2>
+      <p>Deep conditioning, scalp therapy, and growth programmes designed to restore moisture, strengthen strands, and promote healthy hair from root to tip. Ideal for damaged, thinning, or over-processed hair.</p>
+      <div class="sf-tags">
+        <span class="sf-tag">Deep Conditioning</span>
+        <span class="sf-tag">Scalp Therapy</span>
+        <span class="sf-tag">Growth Programme</span>
+        <span class="sf-tag">Steam Treatment</span>
+        <span class="sf-tag">Protein Treatment</span>
+      </div>
+      <div class="sf-links">
+        <span class="btn-primary">Explore Treatments →</span>
+        <span class="sf-price">from P120 <small>/ session</small></span>
+      </div>
+    </div>
+  </a>
+
+  <!-- Products -->
+  <a href="services/products.html" class="service-feature reveal" data-category="product">
+    <div class="sf-image">
+      <img src="https://cse24-100.github.io/cse24-100/growth.jpg" alt="Hair Products">
+      <span class="sf-badge">Products</span>
+    </div>
+    <div class="sf-content">
+      <div class="sf-num">03</div>
+      <h2>Premium <em>Growth</em><br>Products</h2>
+      <p>Our exclusive range of hair growth oils, deep repair masks, and daily care products are formulated with natural ingredients to nourish every hair type. Available for in-salon purchase or WhatsApp delivery within Gaborone.</p>
+      <div class="sf-tags">
+        <span class="sf-tag">Growth Oil</span>
+        <span class="sf-tag">Deep Repair Mask</span>
+        <span class="sf-tag">Growth Bundle</span>
+        <span class="sf-tag">Daily Shampoo</span>
+        <span class="sf-tag">Leave-In Conditioner</span>
+      </div>
+      <div class="sf-links">
+        <span class="btn-primary">Shop Products →</span>
+        <span class="sf-price">from P95 <small>/ item</small></span>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<!-- ADD-ONS -->
+<section class="addons-section reveal">
+  <p class="section-tag">Extras</p>
+  <h2 class="section-title" style="color:var(--cream)">Add-On <em>Services</em></h2>
+  <p class="section-sub" style="color:rgba(250,246,241,0.6)">Enhance any appointment with one of our popular add-ons.</p>
+  <div class="addons-grid">
+    <div class="addon-card">
+      <div class="addon-icon">💆</div>
+      <h4>Scalp Massage</h4>
+      <p>Relaxing scalp massage to stimulate circulation and promote growth. Add to any service.</p>
+      <div class="addon-price">+P50</div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">✨</div>
+      <h4>Edge Control & Styling</h4>
+      <p>Precision edge laying and finishing for a polished, salon-quality result.</p>
+      <div class="addon-price">+P30</div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">🌿</div>
+      <h4>Hot Oil Treatment</h4>
+      <p>Warm oil infusion before your style to seal moisture and boost shine.</p>
+      <div class="addon-price">+P60</div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">🧴</div>
+      <h4>Take-Home Product</h4>
+      <p>Leave with the right product for your hair type — chosen by your stylist.</p>
+      <div class="addon-price">from P95</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="reveal">
+    <p class="section-tag">How It Works</p>
+    <h2 class="section-title">Booking Is <em>Simple</em></h2>
+  </div>
+  <div class="process-grid">
+    <div class="process-step reveal">
+      <div class="ps-circle">1</div>
+      <h4>Choose a Service</h4>
+      <p>Browse the options and pick what you need</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="ps-circle">2</div>
+      <h4>WhatsApp Us</h4>
+      <p>Send us a message — we reply within minutes</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="ps-circle">3</div>
+      <h4>Pick Your Date</h4>
+      <p>We confirm a time that works for you</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="ps-circle">4</div>
+      <h4>Come In</h4>
+      <p>Arrive and relax — we handle everything</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="ps-circle">5</div>
+      <h4>Leave Glowing</h4>
+      <p>Walk out with stunning hair you'll love</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner reveal">
+  <div class="cta-banner-text">
+    <h2>Not sure what you <em>need?</em></h2>
+    <p>Just message us — we'll recommend the right service for your hair.</p>
+  </div>
+  <div class="cta-banner-actions">
+    <a href="https://wa.me/26778416589?text=Hi%20Botho!%20I'm%20not%20sure%20which%20service%20I%20need%20—%20can%20you%20help?" target="_blank" class="btn-wa">💬 Ask on WhatsApp</a>
+    <a href="index.html#faq" class="btn-primary">Read FAQ</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">Botho Hair Boutique</a>
+      <p>Premium hair care services in Gaborone. Expert plaiting, treatments, and growth products for every hair type.</p>
+        <a href="https://wa.me/26778416589" target="_blank" class="footer-wa-link">💬 Chat With Us</a>
+    </div>
+    <div>
+      <h5>Services</h5>
+      <ul>
+        <li><a href="services/plaiting.html">Plaiting Services</a></li>
+        <li><a href="services/treatments.html">Hair Treatments</a></li>
+        <li><a href="services/products.html">Hair Products</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Navigate</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">All Services</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-contact">
+      <h5>Find Us</h5>
+      <p>📍 Gaborone, Botswana</p>
+      <p style="margin-top:0.5rem">💬 WhatsApp<br>+267 00 000 000</p>
+      <p style="margin-top:0.5rem">📘 Botho Hair Boutique</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Botho Hair Boutique. All rights reserved.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn">fb</a>
+      <a href="#" class="social-btn">ig</a>
+      <a href="https://wa.me/26778416589" target="_blank" class="social-btn">wa</a>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/26778416589?text=Hi%20Botho!" target="_blank" class="floating-wa">💬</a>
+
+<script>
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').style.boxShadow =
+      window.scrollY > 50 ? '0 4px 24px rgba(26,20,16,0.08)' : 'none';
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  // Scroll reveal with stagger
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) { el.target.classList.add('visible'); observer.unobserve(el.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 4) * 0.1}s`;
+    observer.observe(el);
+  });
+
+  // Filter
+  function filterServices(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.service-feature').forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.category === cat) ? 'grid' : 'none';
+    });
+  }
+</script>
+</body>
+</html>
